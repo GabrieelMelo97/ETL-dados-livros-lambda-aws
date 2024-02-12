@@ -1,0 +1,33 @@
+service: ingestor-livros
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: master
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "*"
+      Resource: "*"
+
+    
+functions:
+  coleta-livros:
+    handler: handler.main
+    timeout: 900
+
+plugins:
+  - serverless-python-requirements
+  - serverless-pseudo-parameters
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+
+package:
+  exclude:
+    - node_modules/**
+    - .venv/**
+    - .vscode/**
+    
